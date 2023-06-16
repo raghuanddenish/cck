@@ -24,20 +24,98 @@
       var resultElement = document.getElementById("result");
 
       if (userInput < 1 || userInput > 6) {
-        resultElement.textContent = "Please select a number between 1 and 6.";
+        resultElement.textContent = getErrorMessage();
         return;
       }
 
-      resultElement.textContent = "You chose " + userInput + ". The computer chose " + computerInput + ".";
+      resultElement.textContent = getResultMessage(userInput, computerInput);
+    }
 
+    function getErrorMessage() {
+      // JavaScript
+      return "Please select a number between 1 and 6.";
+
+      /* 
+        Python
+        return "Please select a number between 1 and 6."
+      */
+
+      /* 
+        Java
+        return "Please select a number between 1 and 6.";
+      */
+    }
+
+    function getResultMessage(userInput, computerInput) {
+      // JavaScript
+      var message = "You chose " + userInput + ". The computer chose " + computerInput + ".";
       if (userInput === computerInput) {
-        resultElement.textContent += " It's a tie!";
+        message += " It's a tie!";
       } else if ((userInput + 1) % 6 === computerInput) {
-        resultElement.textContent += " You're out!";
+        message += " You're out!";
       } else {
-        resultElement.textContent += " You scored " + userInput + " runs!";
+        message += " You scored " + userInput + " runs!";
       }
+      return message;
+
+      /* 
+        Python
+        message = "You chose " + str(userInput) + ". The computer chose " + str(computerInput) + "."
+        if userInput == computerInput:
+          message += " It's a tie!"
+        elif (userInput + 1) % 6 == computerInput:
+          message += " You're out!"
+        else:
+          message += " You scored " + str(userInput) + " runs!"
+        return message
+      */
+
+      /* 
+        Java
+        String message = "You chose " + userInput + ". The computer chose " + computerInput + ".";
+        if (userInput == computerInput) {
+          message += " It's a tie!";
+        } else if ((userInput + 1) % 6 == computerInput) {
+          message += " You're out!";
+        } else {
+          message += " You scored " + userInput + " runs!";
+        }
+        return message;
+      */
     }
   </script>
+
+  <select id="language" onchange="changeLanguage()">
+    <option value="javascript">JavaScript</option>
+    <option value="python">Python</option>
+    <option value="java">Java</option>
+  </select>
+  <br><br>
+
+  <script>
+    function changeLanguage() {
+      var selectedLanguage = document.getElementById("language").value;
+
+      if (selectedLanguage === "javascript") {
+        document.getElementById("error-snippet").textContent = "// JavaScript\nreturn \"Please select a number between 1 and 6.\";";
+        document.getElementById("result-snippet").textContent = getResultMessage.toString();
+      } else if (selectedLanguage === "python") {
+        document.getElementById("error-snippet").textContent = "# Python\nreturn \"Please select a number between 1 and 6.\"";
+        document.getElementById("result-snippet").textContent = getResultMessage.toString().replace(/\\/g, "\\\\").replace(/"/g, "\\\"");
+      } else if (selectedLanguage === "java") {
+        document.getElementById("error-snippet").textContent = "// Java\nreturn \"Please select a number between 1 and 6.\";";
+        document.getElementById("result-snippet").textContent = getResultMessage.toString().replace(/\\/g, "\\\\").replace(/"/g, "\\\"");
+      }
+    }
+
+    changeLanguage();
+  </script>
+
+  <h3>Error Message Snippet:</h3>
+  <pre id="error-snippet"></pre>
+
+  <h3>Result Message Snippet:</h3>
+  <pre id="result-snippet"></pre>
+
 </body>
 </html>
