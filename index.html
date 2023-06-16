@@ -65,6 +65,7 @@
     var totalRuns = 0;
     var isOut = false;
     var selectedNumber;
+    var timer;
 
     function selectNumber(number) {
       selectedNumber = number;
@@ -99,6 +100,7 @@
         document.getElementById("totalRunsBtn").style.display = "inline-block";
         document.getElementById("playBtn").style.display = "none";
         document.getElementById("user-input").disabled = true;
+        startNewGameAfterDelay(5000);
       }
     }
 
@@ -125,10 +127,12 @@
 
     function showTotalRuns() {
       displayTotalRuns();
+      startNewGameAfterDelay(5000);
     }
 
     function startNewGameAfterDelay(delay) {
-      setTimeout(startNewGame, delay);
+      clearTimeout(timer);
+      timer = setTimeout(startNewGame, delay);
     }
 
     function startNewGame() {
