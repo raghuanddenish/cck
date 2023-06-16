@@ -61,8 +61,6 @@
   <button onclick="selectNumber(5)">5</button>
   <button onclick="selectNumber(6)">6</button>
   <br><br>
-  <button onclick="playHandCricket()" id="playBtn">Play</button>
-  <br><br>
   <p id="result"></p>
   <button id="totalRunsBtn" onclick="showTotalRuns()">Show Total Runs</button>
   <p id="timer"></p>
@@ -76,15 +74,16 @@
     function selectNumber(number) {
       selectedNumber = number;
       document.getElementById("user-input").value = number;
-    }
 
-    function playHandCricket() {
       if (isOut) {
         displayTotalRuns();
         startTimer(5);
-        return;
+      } else {
+        playHandCricket();
       }
+    }
 
+    function playHandCricket() {
       var userInput = parseInt(document.getElementById("user-input").value);
       var computerInput = Math.floor(Math.random() * 6) + 1;
       var resultElement = document.getElementById("result");
@@ -104,7 +103,6 @@
 
       if (isOut) {
         document.getElementById("totalRunsBtn").style.display = "inline-block";
-        document.getElementById("playBtn").style.display = "none";
         document.getElementById("user-input").disabled = true;
         startTimer(5);
       }
@@ -157,17 +155,9 @@
       document.getElementById("user-input").value = "";
       document.getElementById("result").textContent = "";
       document.getElementById("totalRunsBtn").style.display = "none";
-      document.getElementById("playBtn").style.display = "inline-block";
       document.getElementById("user-input").disabled = false;
       document.getElementById("timer").textContent = "";
     }
-  </script>
-
-  <script>
-    function enableInput() {
-      document.getElementById("user-input").disabled = false;
-    }
-    setTimeout(enableInput, 0);
   </script>
 </body>
 </html>
