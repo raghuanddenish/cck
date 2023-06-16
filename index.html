@@ -49,6 +49,13 @@
   <p>Select a number from 1 to 6:</p>
   <input type="number" id="user-input" min="1" max="6" disabled>
   <br><br>
+  <button onclick="selectNumber(1)">1</button>
+  <button onclick="selectNumber(2)">2</button>
+  <button onclick="selectNumber(3)">3</button>
+  <button onclick="selectNumber(4)">4</button>
+  <button onclick="selectNumber(5)">5</button>
+  <button onclick="selectNumber(6)">6</button>
+  <br><br>
   <button onclick="playHandCricket()" id="playBtn">Play</button>
   <br><br>
   <p id="result"></p>
@@ -57,7 +64,12 @@
   <script>
     var totalRuns = 0;
     var isOut = false;
-    var timer;
+    var selectedNumber;
+
+    function selectNumber(number) {
+      selectedNumber = number;
+      document.getElementById("user-input").value = number;
+    }
 
     function playHandCricket() {
       if (isOut) {
@@ -116,11 +128,10 @@
     }
 
     function startNewGameAfterDelay(delay) {
-      timer = setTimeout(startNewGame, delay);
+      setTimeout(startNewGame, delay);
     }
 
     function startNewGame() {
-      clearTimeout(timer);
       resetGame();
       document.getElementById("user-input").value = "";
       document.getElementById("result").textContent = "";
@@ -132,6 +143,7 @@
     function resetGame() {
       totalRuns = 0;
       isOut = false;
+      selectedNumber = null;
     }
   </script>
 
