@@ -5,6 +5,42 @@
   <style>
     body {
       text-align: center;
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    p {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+
+    input[type="number"] {
+      width: 50px;
+      padding: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #totalRunsBtn,
+    #newGameBtn {
+      margin-top: 20px;
+      display: none;
     }
   </style>
 </head>
@@ -16,7 +52,8 @@
   <button onclick="playHandCricket()">Play</button>
   <br><br>
   <p id="result"></p>
-  <button id="totalRunsBtn" onclick="showTotalRuns()" style="display: none;">Show Total Runs</button>
+  <button id="totalRunsBtn" onclick="showTotalRuns()">Show Total Runs</button>
+  <button id="newGameBtn" onclick="startNewGame()">New Game</button>
 
   <script>
     var totalRuns = 0;
@@ -24,7 +61,8 @@
 
     function playHandCricket() {
       if (isOut) {
-        displayResult();
+        displayTotalRuns();
+        startNewGameAfterDelay(5000);
         return;
       }
 
@@ -47,6 +85,7 @@
 
       if (isOut) {
         document.getElementById("totalRunsBtn").style.display = "block";
+        document.getElementById("newGameBtn").style.display = "none";
       }
     }
 
@@ -65,14 +104,28 @@
       return message;
     }
 
-    function displayResult() {
+    function displayTotalRuns() {
       var resultElement = document.getElementById("result");
       resultElement.textContent = "Total runs: " + totalRuns;
       document.getElementById("totalRunsBtn").style.display = "none";
+      document.getElementById("newGameBtn").style.display = "block";
     }
 
-    function showTotalRuns() {
-      displayResult();
+    function startNewGame() {
+      resetGame();
+      document.getElementById("user-input").value = "";
+      document.getElementById("result").textContent = "";
+      document.getElementById("totalRunsBtn").style.display = "none";
+      document.getElementById("newGameBtn").style.display = "none";
+    }
+
+    function startNewGameAfterDelay(delay) {
+      setTimeout(startNewGame, delay);
+    }
+
+    function resetGame() {
+      totalRuns = 0;
+      isOut = false;
     }
   </script>
 
