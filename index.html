@@ -35,7 +35,7 @@
         return;
       }
 
-      if ((userInput + 1) % 6 === computerInput) {
+      if (userInput === computerInput) {
         resultElement.textContent = getResultMessage(userInput, computerInput, true);
         isOut = true;
       } else {
