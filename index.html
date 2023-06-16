@@ -16,6 +16,7 @@
   <button onclick="playHandCricket()">Play</button>
   <br><br>
   <p id="result"></p>
+  <button id="totalRunsBtn" onclick="showTotalRuns()" style="display: none;">Show Total Runs</button>
 
   <script>
     var totalRuns = 0;
@@ -23,7 +24,7 @@
 
     function playHandCricket() {
       if (isOut) {
-        displayTotalRuns();
+        displayResult();
         return;
       }
 
@@ -43,6 +44,10 @@
       }
 
       resultElement.textContent = getResultMessage(userInput, computerInput, isOut);
+
+      if (isOut) {
+        document.getElementById("totalRunsBtn").style.display = "block";
+      }
     }
 
     function getErrorMessage() {
@@ -60,9 +65,14 @@
       return message;
     }
 
-    function displayTotalRuns() {
+    function displayResult() {
       var resultElement = document.getElementById("result");
       resultElement.textContent = "Total runs: " + totalRuns;
+      document.getElementById("totalRunsBtn").style.display = "none";
+    }
+
+    function showTotalRuns() {
+      displayResult();
     }
   </script>
 
