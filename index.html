@@ -176,7 +176,99 @@
       }
     }
 
-    // Rest of the code...
+    function selectNumber(number) {
+      if (isOut) {
+        return;
+      }
+
+      var userInput = document.getElementById("user-input");
+      userInput.value = number;
+      playGame();
+    }
+
+    function playGame() {
+      if (isOut) {
+        return;
+      }
+
+      var userInput = document.getElementById("user-input").value;
+      if (userInput < 1 || userInput > 6) {
+        alert("Please select a number between 1 and 6.");
+        return;
+      }
+
+      var computerInput = getRandomNumber();
+      var resultElement = document.getElementById("result");
+      var isOut = checkOut(userInput, computerInput);
+
+      if (isOut) {
+        document.getElementById("user-input").disabled = true;
+        document.getElementById("outResult").textContent = "You're out! Total runs: " + totalRuns;
+        if (!isTimerRunning) {
+          startTimer(5);
+        }
+      } else {
+        totalRuns += parseInt(userInput);
+        resultElement.textContent = getResultMessage(userInput, computerInput, isOut);
+        document.getElementById("user-input").value = "";
+      }
+    }
+
+    function getRandomNumber() {
+      return Math.floor(Math.random() * 6) + 1;
+    }
+
+    function checkOut(userInput, computerInput) {
+      return userInput === computerInput;
+    }
+
+    function getResultMessage(userInput, computerInput, isOut) {
+      var message = "You chose " + userInput + ". The computer chose " + computerInput + ".";
+      if (isOut) {
+        message += " You're out!";
+      } else {
+        message += " You scored " + userInput + " run(s).";
+      }
+      return message;
+    }
+
+    function startTimer(seconds) {
+      isTimerRunning = true;
+      var timerElement = document.getElementById("timer");
+      timerElement.textContent = "Timer: " + seconds;
+      var interval = setInterval(function () {
+        seconds--;
+        timerElement.textContent = "Timer: " + seconds;
+        if (seconds <= 0) {
+          clearInterval(interval);
+          isTimerRunning = false;
+          resetGame();
+        }
+      }, 1000);
+    }
+
+    function resetGame() {
+      document.getElementById("playerName").disabled = false;
+      document.getElementById("playerName").value = "";
+      document.getElementById("startGameBtn").disabled = false;
+      document.getElementById("playerNameDisplay").style.display = "none";
+      document.getElementById("user-input").value = "";
+      document.getElementById("user-input").disabled = true;
+      var numberButtons = document.getElementsByClassName("number-button");
+      for (var i = 0; i < numberButtons.length; i++) {
+        numberButtons[i].disabled = true;
+      }
+      totalRuns = 0;
+      isOut = false;
+      document.getElementById("result").textContent = "";
+      document.getElementById("totalRunsBtn").style.display = "none";
+      document.getElementById("outResult").textContent = "";
+      document.getElementById("timer").textContent = "";
+    }
+
+    function showTotalRuns() {
+      alert("Total runs: " + totalRuns);
+    }
   </script>
 </body>
 </html>
