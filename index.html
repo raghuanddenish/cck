@@ -3,149 +3,30 @@
 <head>
   <title>Hand Cricket Game</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-      text-align: center;
-      color: #333;
-    }
-
-    label {
-      font-size: 18px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    input[type="text"],
-    input[type="number"],
-    button {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-sizing: border-box;
-    }
-
-    button {
-      background-color: #4caf50;
-      color: #fff;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-
-    .number-button {
-      width: calc(100% / 6 - 10px);
-      margin-right: 10px;
-    }
-
-    .result {
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    #totalRunsBtn {
-      display: none;
-      margin-top: 10px;
-      background-color: #2196f3;
-    }
-
-    #outResult {
-      margin-top: 20px;
-      font-size: 18px;
-      color: #ff0000;
-    }
-
-    #timer {
-      margin-top: 10px;
-      font-size: 24px;
-      font-weight: bold;
-      color: #ff0000;
-      text-align: center;
-    }
-
-    /* Programming Languages */
-    .language-list {
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    .language-list ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    .language-list li {
-      display: inline-block;
-      margin-right: 10px;
-    }
-
-    .language-list li a {
-      display: inline-block;
-      padding: 6px 10px;
-      background-color: #333;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
-    }
-
-    .language-list li a:hover {
-      background-color: #555;
-    }
+    /* CSS styles here */
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Hand Cricket Game</h1>
-    <label for="playerName">Enter your name:</label>
-    <input type="text" id="playerName">
-    <button onclick="startGame()">Start Game</button>
-    <p id="playerNameDisplay" style="display: none;"></p>
-    <p>Select a number from 1 to 6:</p>
-    <input type="number" id="user-input" min="1" max="6" disabled>
-    <div class="number-buttons">
-      <button class="number-button" onclick="selectNumber(1)">1</button>
-      <button class="number-button" onclick="selectNumber(2)">2</button>
-      <button class="number-button" onclick="selectNumber(3)">3</button>
-      <button class="number-button" onclick="selectNumber(4)">4</button>
-      <button class="number-button" onclick="selectNumber(5)">5</button>
-      <button class="number-button" onclick="selectNumber(6)">6</button>
-    </div>
-    <p class="result" id="result"></p>
-    <button id="totalRunsBtn" onclick="showTotalRuns()">Show Total Runs</button>
-    <p id="outResult"></p>
-    <p id="timer"></p>
-
-    <div class="language-list">
-      <ul>
-        <li><a href="#">HTML</a></li>
-        <li><a href="#">CSS</a></li>
-        <li><a href="#">JavaScript</a></li>
-        <li><a href="#">Python</a></li>
-        <li><a href="#">Java</a></li>
-        <li><a href="#">Ruby</a></li>
-      </ul>
-    </div>
-  </div>
+  <h1>Hand Cricket Game</h1>
+  <label for="playerName">Enter your name:</label>
+  <input type="text" id="playerName">
+  <br><br>
+  <button onclick="startGame()">Start Game</button>
+  <p id="playerNameDisplay" style="display: none;"></p>
+  <p>Select a number from 1 to 6:</p>
+  <input type="number" id="user-input" min="1" max="6" disabled>
+  <br><br>
+  <button class="number-button" onclick="selectNumber(1)">1</button>
+  <button class="number-button" onclick="selectNumber(2)">2</button>
+  <button class="number-button" onclick="selectNumber(3)">3</button>
+  <button class="number-button" onclick="selectNumber(4)">4</button>
+  <button class="number-button" onclick="selectNumber(5)">5</button>
+  <button class="number-button" onclick="selectNumber(6)">6</button>
+  <br><br>
+  <p id="result"></p>
+  <button id="totalRunsBtn" onclick="showTotalRuns()" style="display: none;">Show Total Runs</button>
+  <p id="outResult"></p>
+  <p id="timer"></p>
 
   <script>
     var totalRuns = 0;
@@ -177,49 +58,47 @@
     }
 
     function selectNumber(number) {
-      if (isOut) {
-        return;
-      }
+      selectedNumber = number;
+      document.getElementById("user-input").value = number;
 
-      var userInput = document.getElementById("user-input");
-      userInput.value = number;
-      playGame();
+      if (isOut) {
+        displayTotalRuns();
+        startTimer(5);
+      } else {
+        playHandCricket();
+      }
     }
 
-    function playGame() {
-      if (isOut) {
-        return;
-      }
-
-      var userInput = document.getElementById("user-input").value;
-      if (userInput < 1 || userInput > 6) {
-        alert("Please select a number between 1 and 6.");
-        return;
-      }
-
-      var computerInput = getRandomNumber();
+    function playHandCricket() {
+      var userInput = parseInt(document.getElementById("user-input").value);
+      var computerInput = Math.floor(Math.random() * 6) + 1;
       var resultElement = document.getElementById("result");
-      var isOut = checkOut(userInput, computerInput);
+
+      if (userInput < 1 || userInput > 6) {
+        resultElement.textContent = getErrorMessage();
+        return;
+      }
+
+      if (userInput === computerInput) {
+        isOut = true;
+      } else {
+        totalRuns += userInput;
+      }
+
+      resultElement.textContent = getResultMessage(userInput, computerInput, isOut);
 
       if (isOut) {
+        document.getElementById("totalRunsBtn").style.display = "inline-block";
         document.getElementById("user-input").disabled = true;
         document.getElementById("outResult").textContent = "You're out! Total runs: " + totalRuns;
         if (!isTimerRunning) {
           startTimer(5);
         }
-      } else {
-        totalRuns += parseInt(userInput);
-        resultElement.textContent = getResultMessage(userInput, computerInput, isOut);
-        document.getElementById("user-input").value = "";
       }
     }
 
-    function getRandomNumber() {
-      return Math.floor(Math.random() * 6) + 1;
-    }
-
-    function checkOut(userInput, computerInput) {
-      return userInput === computerInput;
+    function getErrorMessage() {
+      return "Please select a number between 1 and 6.";
     }
 
     function getResultMessage(userInput, computerInput, isOut) {
@@ -227,47 +106,51 @@
       if (isOut) {
         message += " You're out!";
       } else {
-        message += " You scored " + userInput + " run(s).";
+        message += " You scored " + userInput + " runs!";
+        message += " Total runs: " + totalRuns;
       }
       return message;
+    }
+
+    function displayTotalRuns() {
+      var resultElement = document.getElementById("result");
+      resultElement.textContent = "Total runs: " + totalRuns;
+      document.getElementById("totalRunsBtn").style.display = "inline-block";
+    }
+
+    function showTotalRuns() {
+      displayTotalRuns();
+      if (!isTimerRunning) {
+        startTimer(5);
+      }
     }
 
     function startTimer(seconds) {
       isTimerRunning = true;
       var timerElement = document.getElementById("timer");
-      timerElement.textContent = "Timer: " + seconds;
-      var interval = setInterval(function () {
-        seconds--;
-        timerElement.textContent = "Timer: " + seconds;
-        if (seconds <= 0) {
-          clearInterval(interval);
-          isTimerRunning = false;
-          resetGame();
-        }
-      }, 1000);
+      timerElement.textContent = seconds + "s";
+
+      if (seconds > 0) {
+        setTimeout(function () {
+          startTimer(seconds - 1);
+        }, 1000);
+      } else {
+        startNewGame();
+      }
     }
 
-    function resetGame() {
-      document.getElementById("playerName").disabled = false;
-      document.getElementById("playerName").value = "";
-      document.getElementById("startGameBtn").disabled = false;
-      document.getElementById("playerNameDisplay").style.display = "none";
-      document.getElementById("user-input").value = "";
-      document.getElementById("user-input").disabled = true;
-      var numberButtons = document.getElementsByClassName("number-button");
-      for (var i = 0; i < numberButtons.length; i++) {
-        numberButtons[i].disabled = true;
-      }
+    function startNewGame() {
       totalRuns = 0;
       isOut = false;
+      selectedNumber = null;
+
+      document.getElementById("user-input").value = "";
       document.getElementById("result").textContent = "";
       document.getElementById("totalRunsBtn").style.display = "none";
+      document.getElementById("user-input").disabled = false;
       document.getElementById("outResult").textContent = "";
       document.getElementById("timer").textContent = "";
-    }
-
-    function showTotalRuns() {
-      alert("Total runs: " + totalRuns);
+      isTimerRunning = false;
     }
   </script>
 </body>
