@@ -43,6 +43,13 @@
       display: none;
     }
 
+    #outResult {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: red;
+    }
+
     #timer {
       font-size: 24px;
       margin-top: 20px;
@@ -51,18 +58,24 @@
 </head>
 <body>
   <h1>Hand Cricket Game</h1>
+  <label for="playerName">Enter your name:</label>
+  <input type="text" id="playerName">
+  <br><br>
+  <button onclick="startGame()">Start Game</button>
+  <p id="playerNameDisplay" style="display: none;"></p>
   <p>Select a number from 1 to 6:</p>
   <input type="number" id="user-input" min="1" max="6" disabled>
   <br><br>
-  <button onclick="selectNumber(1)">1</button>
-  <button onclick="selectNumber(2)">2</button>
-  <button onclick="selectNumber(3)">3</button>
-  <button onclick="selectNumber(4)">4</button>
-  <button onclick="selectNumber(5)">5</button>
-  <button onclick="selectNumber(6)">6</button>
+  <button class="number-button" onclick="selectNumber(1)">1</button>
+  <button class="number-button" onclick="selectNumber(2)">2</button>
+  <button class="number-button" onclick="selectNumber(3)">3</button>
+  <button class="number-button" onclick="selectNumber(4)">4</button>
+  <button class="number-button" onclick="selectNumber(5)">5</button>
+  <button class="number-button" onclick="selectNumber(6)">6</button>
   <br><br>
   <p id="result"></p>
   <button id="totalRunsBtn" onclick="showTotalRuns()">Show Total Runs</button>
+  <p id="outResult"></p>
   <p id="timer"></p>
 
   <script>
@@ -70,6 +83,28 @@
     var isOut = false;
     var selectedNumber;
     var timer;
+    var playerName;
+
+    function startGame() {
+      playerName = document.getElementById("playerName").value;
+      if (playerName.trim() === "") {
+        alert("Please enter your name.");
+        return;
+      }
+
+      document.getElementById("playerName").disabled = true;
+      var startGameBtn = document.querySelector("button[onclick='startGame()']");
+      startGameBtn.disabled = true;
+
+      var playerNameDisplay = document.getElementById("playerNameDisplay");
+      playerNameDisplay.textContent = "Player Name: " + playerName;
+      playerNameDisplay.style.display = "block";
+
+      var numberButtons = document.getElementsByClassName("number-button");
+      for (var i = 0; i < numberButtons.length; i++) {
+        numberButtons[i].disabled = false;
+      }
+    }
 
     function selectNumber(number) {
       selectedNumber = number;
@@ -104,6 +139,7 @@
       if (isOut) {
         document.getElementById("totalRunsBtn").style.display = "inline-block";
         document.getElementById("user-input").disabled = true;
+        document.getElementById("outResult").textContent = "You're out! Total runs: " + totalRuns;
         startTimer(5);
       }
     }
@@ -115,7 +151,7 @@
     function getResultMessage(userInput, computerInput, isOut) {
       var message = "You chose " + userInput + ". The computer chose " + computerInput + ".";
       if (isOut) {
-        message += " You're out!". " Total runs: " + totalRuns;
+        message += " You're out!";
       } else {
         message += " You scored " + userInput + " runs!";
         message += " Total runs: " + totalRuns;
@@ -156,6 +192,7 @@
       document.getElementById("result").textContent = "";
       document.getElementById("totalRunsBtn").style.display = "none";
       document.getElementById("user-input").disabled = false;
+      document.getElementById("outResult").textContent = "";
       document.getElementById("timer").textContent = "";
     }
   </script>
