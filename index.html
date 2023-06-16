@@ -23,7 +23,8 @@
 
     function playHandCricket() {
       if (isOut) {
-        resetGame();
+        displayTotalRuns();
+        return;
       }
 
       var userInput = parseInt(document.getElementById("user-input").value);
@@ -36,12 +37,12 @@
       }
 
       if (userInput === computerInput) {
-        resultElement.textContent = getResultMessage(userInput, computerInput, true);
         isOut = true;
       } else {
         totalRuns += userInput;
-        resultElement.textContent = getResultMessage(userInput, computerInput, false);
       }
+
+      resultElement.textContent = getResultMessage(userInput, computerInput, isOut);
     }
 
     function getErrorMessage() {
@@ -59,9 +60,9 @@
       return message;
     }
 
-    function resetGame() {
-      totalRuns = 0;
-      isOut = false;
+    function displayTotalRuns() {
+      var resultElement = document.getElementById("result");
+      resultElement.textContent = "Total runs: " + totalRuns;
     }
   </script>
 
