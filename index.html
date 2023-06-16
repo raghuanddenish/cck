@@ -3,57 +3,7 @@
 <head>
   <title>Hand Cricket Game</title>
   <style>
-    body {
-      text-align: center;
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-    }
-
-    h1 {
-      color: #333;
-    }
-
-    p {
-      margin: 10px 0;
-      font-size: 18px;
-    }
-
-    input[type="number"] {
-      width: 50px;
-      padding: 5px;
-      font-size: 16px;
-    }
-
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #4caf50;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      display: inline-block;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-
-    #totalRunsBtn {
-      margin-top: 20px;
-      display: none;
-    }
-
-    #outResult {
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
-      color: red;
-    }
-
-    #timer {
-      font-size: 24px;
-      margin-top: 20px;
-    }
+    /* CSS styles here */
   </style>
 </head>
 <body>
@@ -74,7 +24,7 @@
   <button class="number-button" onclick="selectNumber(6)">6</button>
   <br><br>
   <p id="result"></p>
-  <button id="totalRunsBtn" onclick="showTotalRuns()">Show Total Runs</button>
+  <button id="totalRunsBtn" onclick="showTotalRuns()" style="display: none;">Show Total Runs</button>
   <p id="outResult"></p>
   <p id="timer"></p>
 
@@ -84,6 +34,7 @@
     var selectedNumber;
     var timer;
     var playerName;
+    var isTimerRunning = false;
 
     function startGame() {
       playerName = document.getElementById("playerName").value;
@@ -140,7 +91,9 @@
         document.getElementById("totalRunsBtn").style.display = "inline-block";
         document.getElementById("user-input").disabled = true;
         document.getElementById("outResult").textContent = "You're out! Total runs: " + totalRuns;
-        startTimer(5);
+        if (!isTimerRunning) {
+          startTimer(5);
+        }
       }
     }
 
@@ -167,10 +120,13 @@
 
     function showTotalRuns() {
       displayTotalRuns();
-      startTimer(5);
+      if (!isTimerRunning) {
+        startTimer(5);
+      }
     }
 
     function startTimer(seconds) {
+      isTimerRunning = true;
       var timerElement = document.getElementById("timer");
       timerElement.textContent = seconds + "s";
 
@@ -194,6 +150,7 @@
       document.getElementById("user-input").disabled = false;
       document.getElementById("outResult").textContent = "";
       document.getElementById("timer").textContent = "";
+      isTimerRunning = false;
     }
   </script>
 </body>
