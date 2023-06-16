@@ -81,7 +81,7 @@
     function playHandCricket() {
       if (isOut) {
         displayTotalRuns();
-        startNewGameAfterDelay(5000);
+        startTimer(5);
         return;
       }
 
@@ -106,8 +106,7 @@
         document.getElementById("totalRunsBtn").style.display = "inline-block";
         document.getElementById("playBtn").style.display = "none";
         document.getElementById("user-input").disabled = true;
-        startNewGameAfterDelay(5000);
-        displayTimer(5);
+        startTimer(5);
       }
     }
 
@@ -134,41 +133,33 @@
 
     function showTotalRuns() {
       displayTotalRuns();
-      startNewGameAfterDelay(5000);
-      displayTimer(5);
+      startTimer(5);
     }
 
-    function startNewGameAfterDelay(delay) {
-      clearTimeout(timer);
-      timer = setTimeout(startNewGame, delay * 1000);
-    }
-
-    function displayTimer(seconds) {
+    function startTimer(seconds) {
       var timerElement = document.getElementById("timer");
       timerElement.textContent = seconds + "s";
 
       if (seconds > 0) {
         setTimeout(function () {
-          displayTimer(seconds - 1);
+          startTimer(seconds - 1);
         }, 1000);
       } else {
-        timerElement.textContent = "";
+        startNewGame();
       }
     }
 
     function startNewGame() {
-      resetGame();
+      totalRuns = 0;
+      isOut = false;
+      selectedNumber = null;
+
       document.getElementById("user-input").value = "";
       document.getElementById("result").textContent = "";
       document.getElementById("totalRunsBtn").style.display = "none";
       document.getElementById("playBtn").style.display = "inline-block";
       document.getElementById("user-input").disabled = false;
-    }
-
-    function resetGame() {
-      totalRuns = 0;
-      isOut = false;
-      selectedNumber = null;
+      document.getElementById("timer").textContent = "";
     }
   </script>
 
